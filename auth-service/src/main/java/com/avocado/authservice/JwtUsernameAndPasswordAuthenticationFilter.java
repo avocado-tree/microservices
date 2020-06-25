@@ -4,6 +4,7 @@ import com.avocado.commonservice.JwtConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -75,7 +76,10 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                 .compact();
 
         // Add token to header
-        response.addHeader(jwtConfig.getHeader(), jwtConfig.getPrefix() + token);
+        System.out.println(HttpHeaders.AUTHORIZATION + jwtConfig.getPrefix() + token);
+
+        response.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
+        filter
     }
 
     private static class UserCredentials {

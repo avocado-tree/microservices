@@ -1,7 +1,6 @@
 package com.avocado.apps.gateway;
 
 import com.avocado.commonservice.JwtConfig;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -35,8 +34,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated();
     }
 
-    @Bean
-    public JwtConfig jwtConfig() {
-        return new JwtConfig();
-    }
 }

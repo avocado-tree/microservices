@@ -1,7 +1,6 @@
 package com.avocado.authservice;
 
 import com.avocado.commonservice.JwtConfig;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,10 +17,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
     private final JwtConfig jwtConfig;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public WebSecurityConfig(UserDetailsService userDetailsService, JwtConfig jwtConfig) {
+    public WebSecurityConfig(UserDetailsServiceImpl userDetailsService, JwtConfig jwtConfig, BCryptPasswordEncoder passwordEncoder) {
         this.userDetailsService = userDetailsService;
         this.jwtConfig = jwtConfig;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -40,16 +41,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-    }
-
-    @Bean
-    public JwtConfig jwtConfig() {
-        return new JwtConfig();
-    }
-
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 }
