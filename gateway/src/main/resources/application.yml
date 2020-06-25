@@ -11,3 +11,9 @@ zuul:
     gallery-service:
       path: /gallery/**
       service-id: gallery-service
+
+    auth-service:
+      path: /auth/**
+      service-id: auth-service
+      strip-prefix: false
+      sensitive-header: Cookie, Set-Cookie
