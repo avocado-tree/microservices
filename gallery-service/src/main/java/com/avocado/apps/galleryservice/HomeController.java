@@ -1,5 +1,6 @@
 package com.avocado.apps.galleryservice;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,7 @@ public class HomeController {
         return "Gallery Service running at port: " + env.getProperty("local.server.port");
     }
 
+    @HystrixCommand(fallbackMethod = "fallback")
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Gallery getGallery(@PathVariable final int id) {
         Gallery gallery = new Gallery(id);
@@ -46,5 +48,9 @@ public class HomeController {
     @GetMapping(value = "/admin", produces = MediaType.APPLICATION_JSON_VALUE)
     public String homeAdmin() {
         return "This is the admin area of Gallery service running at port: " + env.getProperty("local.server.port");
+    }
+
+    public Gallery fallback(int galleryId, Throwable hystrixCommand) {
+        return new Gallery(galleryId);
     }
 }

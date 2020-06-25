@@ -79,7 +79,6 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
         System.out.println(HttpHeaders.AUTHORIZATION + jwtConfig.getPrefix() + token);
 
         response.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
-        filter
     }
 
     private static class UserCredentials {
